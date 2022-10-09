@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    int tribonacci(int n) 
+    int tribonacci(int n) // Space Optimized
     {
         if(n <= 1)
             return n;
