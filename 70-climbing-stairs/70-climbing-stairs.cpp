@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int climbStairs(int n) 
+    int climbStairs(int n) // Space Optimized
     {
         if (n <= 2) 
             return n;
