@@ -26,15 +26,48 @@ public:
     
     
         
-    int paths(int m, int n, vector<vector<int>>& obstacleGrid, vector<vector<int>>& dp)
-    {        
+//     int paths(int m, int n, vector<vector<int>>& obstacleGrid, vector<vector<int>>& dp)
+//     {        
+//         for(int i=0; i<m; i++)
+//         {
+//             for(int j=0; j<n; j++)
+//             {
+//                 if(i==0  &&  j==0)
+//                 {
+//                     dp[i][j] = 1;
+//                     continue;
+//                 }
+                
+//                 int right=0;
+//                 int down=0;
+        
+//                 if(i>0  &&  obstacleGrid[i-1][j] != 1)
+//                     right = dp[i-1][j];
+                
+//                 if(j>0  &&  obstacleGrid[i][j-1] != 1)
+//                     down = dp[i][j-1];
+                
+//                 dp[i][j] = right + down;
+//             }
+//         }
+        
+//         return dp[m-1][n-1];
+//     }
+    
+    
+    
+    
+    
+    int paths(int m, int n, vector<vector<int>>& obstacleGrid, vector<int>& prev)
+    {
         for(int i=0; i<m; i++)
         {
+            vector<int> curr(n,0);
             for(int j=0; j<n; j++)
             {
                 if(i==0  &&  j==0)
                 {
-                    dp[i][j] = 1;
+                    curr[j] = 1;
                     continue;
                 }
                 
@@ -42,17 +75,20 @@ public:
                 int down=0;
         
                 if(i>0  &&  obstacleGrid[i-1][j] != 1)
-                    right = dp[i-1][j];
+                    right = prev[j];
                 
                 if(j>0  &&  obstacleGrid[i][j-1] != 1)
-                    down = dp[i][j-1];
+                    down = curr[j-1];
                 
-                dp[i][j] = right + down;
+                curr[j] = right + down;
             }
+            prev = curr;
         }
         
-        return dp[m-1][n-1];
+        return prev[n-1];
     }
+    
+    
     
     
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) 
@@ -61,7 +97,7 @@ public:
         int n = obstacleGrid[0].size();
         if(obstacleGrid[m-1][n-1] == 1) 
             return 0;
-        vector<vector<int>> dp(m+1, vector<int> (n+1, -1));
-        return paths(m, n, obstacleGrid, dp);
+        vector<int> prev(n, 0);
+        return paths(m, n, obstacleGrid, prev);
     }
 };
