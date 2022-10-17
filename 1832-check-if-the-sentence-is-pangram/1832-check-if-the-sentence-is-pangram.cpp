@@ -2,16 +2,11 @@ class Solution {
 public:
     bool checkIfPangram(string sentence) 
     {
-        vector<int> alp(26, 0);
-        for(int i=0; i<sentence.length(); i++)
+        for (int i = 0; i < 26; ++i) 
         {
-            char x = sentence[i] - 97;
-            alp[x] = 1;
-        }
-        
-        for(char x : alp)
-        {
-            if(x == 0)
+            char currChar = 'a' + i;
+            
+            if (sentence.find(currChar) == string::npos)
                 return false;
         }
         
