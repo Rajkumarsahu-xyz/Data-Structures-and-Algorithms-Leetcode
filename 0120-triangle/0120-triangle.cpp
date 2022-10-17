@@ -1,31 +1,26 @@
 class Solution {
 public:
     
-    int total(vector<vector<int>>& triangle, int m)
+    int total(vector<vector<int>>& triangle, int m, int i, int j, vector<vector<int>>& dp)
     {
-        vector<vector<int>> dp(m, vector<int> (m, -1));
-        for(int j=0;j<m;j++)
-        {
-            dp[m-1][j] = triangle[m-1][j];
-        }
-        
-        for(int i=m-2; i>=0; i--)
-        {
-            for(int j=i; j>=0; j--)
-            {
-                int diagonalsum = triangle[i][j] + dp[i+1][j+1];
-                int downsum = triangle[i][j] + dp[i+1][j];
-                
-                dp[i][j] = min(diagonalsum, downsum);
-            }
-        }
-        
-        return dp[0][0];
+        if(dp[i][j]!=-1)
+        return dp[i][j];
+  
+        if(i == m-1) 
+            return triangle[i][j];
+    
+        int downsum = triangle[i][j] + total(triangle, m, i+1, j, dp);
+        int diagonalsum = triangle[i][j] + total(triangle, m, i+1, j+1, dp);
+  
+        return dp[i][j] = min(downsum, diagonalsum);
     }
     
     int minimumTotal(vector<vector<int>>& triangle) 
     {
         int m = triangle.size();
-        return total(triangle, m);
+        vector<vector<int>> dp(m+1, vector<int> (m+1, -1));
+        int i=0, j=0;
+        
+        return total(triangle, m, i, j, dp);
     }
 };
