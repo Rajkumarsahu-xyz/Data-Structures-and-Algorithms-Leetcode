@@ -1,18 +1,29 @@
 class Solution {
 public:
     
-    bool partition(vector<int>& nums, int n, int s, vector<vector<int>>& dp)
+    bool partition(vector<int>& nums, int n, int s, vector<vector<bool>>& dp)
     {
-        if(s==0  ||  (n==0 && s==nums[0]))
-            return true;
+        for(int i=0; i<n; i++)
+        dp[i][0] = true;
+    
+        if(nums[0]<=s)
+            dp[0][nums[0]] = true;
+    
+        for(int ind = 1; ind<n; ind++)
+        {
+            for(int target= 1; target<=s; target++)
+            { 
+                bool notTaken = dp[ind-1][target];
+
+                bool taken = false;
+                if(nums[ind]<=target)
+                    taken = dp[ind-1][target-nums[ind]];
         
-        if((n==0  &&  s>0) || s<0)
-            return false;
-        
-        if(dp[n][s] != -1)
-            return dp[n][s];
-        
-        return dp[n][s] = partition(nums, n-1, s-nums[n], dp)  ||  partition(nums, n-1, s, dp);
+                dp[ind][target] = notTaken || taken;
+            }
+        }
+    
+        return dp[n-1][s];
     }
     
     bool canPartition(vector<int>& nums) 
@@ -29,8 +40,8 @@ public:
         
         else
         {
-            vector<vector<int>> dp(n+1, vector<int> ((s/2)+1, -1)); 
-            return partition(nums, n-1, s/2, dp);
+            vector<vector<bool>> dp(n+1, vector<bool> ((s/2)+1, false)); 
+            return partition(nums, n, s/2, dp);
         }
     }
 };
