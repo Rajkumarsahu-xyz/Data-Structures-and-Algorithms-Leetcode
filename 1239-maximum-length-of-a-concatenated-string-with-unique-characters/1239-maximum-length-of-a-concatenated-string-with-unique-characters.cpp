@@ -18,7 +18,7 @@ public:
         return true;
     }
     
-    int mxlen(vector<string>& arr, int i, int n, string subs, int mx)
+    int mxlen(vector<string>& arr, int i, int n, string subs, int mx, unordered_map<string, int>& dp)
     {
         if(unique(subs) == false)
             return mx;
@@ -30,16 +30,20 @@ public:
             return mx;
         }
         
-        mx = max(mxlen(arr, i+1, n, subs+arr[i], mx), mxlen(arr, i+1, n, subs, mx));
-        return mx;
+        if(dp.find(subs) != dp.end())
+        {
+            return dp[subs];
+        }
+        
+        mx = max(mxlen(arr, i+1, n, subs+arr[i], mx, dp), mxlen(arr, i+1, n, subs, mx, dp));
+        return dp[subs] = mx;
     }
     
     int maxLength(vector<string>& arr) 
     {
         int n = arr.size(), mx = 0;
         string subs = "";
-        return mxlen(arr, 0, n, subs, mx);
-        
-        //return mx;
+        unordered_map<string, int> dp;
+        return mxlen(arr, 0, n, subs, mx, dp);
     }
 };
