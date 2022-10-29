@@ -1,42 +1,62 @@
 class Solution {
 public:
     
-    int maxcherry(vector<vector<int>> &grid, int r, int c, int i, int j1, int j2, vector<vector<vector<int>>>& dp)
+    int maxcherry(vector<vector<int>> &grid, int n, int m)
     {
-        if(j1<0 || j1>c-1 || j2<0 || j2>c-1)
-            return -1e9;   
-        if(i == r-1)
+        vector < vector < vector < int >>> dp(n, vector < vector < int >> (m, vector < int > (m, 0)));
+
+        for (int j1 = 0; j1 < m; j1++) 
         {
-            if(j1 == j2)
-                return grid[i][j1];
+          for (int j2 = 0; j2 < m; j2++) 
+          {
+            if (j1 == j2)
+              dp[n - 1][j1][j2] = grid[n - 1][j1];
             else
-                return grid[i][j1] + grid[i][j2];
+              dp[n - 1][j1][j2] = grid[n - 1][j1] + grid[n - 1][j2];
+          }
         }
-    
-        if(dp[i][j1][j2] != -1)
-            return dp[i][j1][j2];
-        
-        int ans = INT_MIN;
-        for(int dj1=-1; dj1<=1; dj1++)
+
+        //Outer Nested Loops for travering DP Array
+        for (int i = n - 2; i >= 0; i--) 
         {
-            for(int dj2=-1; dj2<=1; dj2++)
+          for (int j1 = 0; j1 < m; j1++) 
+          {
+            for (int j2 = 0; j2 < m; j2++) 
             {
-                if(j1 == j2)
-                    ans = max(ans, grid[i][j1] + maxcherry(grid, r, c, i+1, j1+dj1, j2+dj2, dp));
-                else
-                    ans = max(ans, grid[i][j1] + grid[i][j2] + maxcherry(grid, r, c, i+1, j1+dj1, j2+dj2, dp));
+              int maxi = INT_MIN;
+          
+              //Inner nested loops to try out 9 options
+              for (int di = -1; di <= 1; di++) 
+              {
+                for (int dj = -1; dj <= 1; dj++) 
+                {
+                  int ans;
+
+                  if (j1 == j2)
+                    ans = grid[i][j1];
+                  else
+                    ans = grid[i][j1] + grid[i][j2];
+
+                  if ((j1 + di < 0 || j1 + di >= m) || (j2 + dj < 0 || j2 + dj >= m))
+                    ans += -1e9;
+                  else
+                    ans += dp[i + 1][j1 + di][j2 + dj];
+
+                  maxi = max(ans, maxi);
+                }
+              }
+              dp[i][j1][j2] = maxi;
             }
+          }
         }
-    
-        return dp[i][j1][j2] = ans;
+
+        return dp[0][0][m - 1];
     }
 
     int cherryPickup(vector<vector<int>>& grid) 
     {
         int r=grid.size(), c=grid[0].size(); 
-        int i=0, j1=0, j2=c-1;
-        vector<vector<vector<int>>> dp(r+1, vector<vector<int>>(c+1, vector<int> (c+1, -1)));
-        return maxcherry(grid, r, c, i, j1, j2, dp);
+        return maxcherry(grid, r, c);
     }
     
 };
