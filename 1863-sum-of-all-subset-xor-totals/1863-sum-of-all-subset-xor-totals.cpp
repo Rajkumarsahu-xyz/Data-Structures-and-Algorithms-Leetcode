@@ -1,17 +1,8 @@
 class Solution {
 public:
     
-    int XORsum(vector<int>& nums, int i, int n, int xr)
+    int subsetXORSum(vector<int>& n) 
     {
-        if(i==n)
-            return xr;
-        
-        return XORsum(nums, i+1, n, xr^nums[i]) + XORsum(nums, i+1, n, xr);
-    }
-    
-    int subsetXORSum(vector<int>& nums) 
-    {
-        int n = nums.size(), xr=0; 
-        return XORsum(nums, 0, n, xr);
+        return accumulate(begin(n), end(n), 0, bit_or<int>()) << (n.size()-1);
     }
 };
