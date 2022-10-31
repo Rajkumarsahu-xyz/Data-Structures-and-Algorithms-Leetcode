@@ -1,20 +1,36 @@
 class Solution {
 public:
     
-    int dp[31][1001] = {0};
-    int numRollsToTarget(int n, int k, int target, int res = 0) 
+    int rolltoTarget(int n, int i, int sum, int k, int target, vector<vector<int>>& dp)
     {
-        if (n == 0 || target <= 0) 
-            return n == target;
+        if(i == n-1)
+        {
+            for(int j=1; j<=k; j++)
+            {
+                if(sum+j == target)
+                    return 1;
+            }
+            
+            return 0;
+        }
         
-        if (dp[n][target]) 
-            return dp[n][target] - 1;
+        if(dp[i][sum] != -1)
+            return dp[i][sum];
         
-        for (auto i = 1; i <= k; ++i)
-            res = (res + numRollsToTarget(n - 1, k, target - i)) % 1000000007;
+        long long int ways = 0;
+        for(int j=1; j<=k; j++)
+        {
+            if(sum+j <= target)
+                ways += fmod(rolltoTarget(n, i+1, sum+j, k, target, dp) , (1e9+7));
+        }
         
-        dp[n][target] = res + 1;
-        return res;
+        return dp[i][sum] = fmod(ways, (1e9+7));
     }
     
+    int numRollsToTarget(int n, int k, int target) 
+    {
+        int i=0, sum=0;
+        vector<vector<int>> dp(n+1, vector<int> (target+1, -1));
+        return rolltoTarget(n, i, sum, k, target, dp);
+    }
 };
