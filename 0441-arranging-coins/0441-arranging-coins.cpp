@@ -2,14 +2,21 @@ class Solution {
 public:
     int arrangeCoins(int n) 
     {
-        int ctr = 0;
-        for(int i=1; i<=n; i++)
+        int i=0, j=n;
+        while(i <= j)
         {
-            ctr++;
-            n -= i;
+            long long mid = i + (j-i)/2;
+            long long k = (mid*(mid+1))/2;
+            
+            if(k == n)
+                return mid;
+            else if(k < n)
+                i = mid+1;
+            else
+                j = mid-1;
+            
         }
         
-        return ctr;
-        
+        return j;
     }
 };
