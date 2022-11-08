@@ -2,15 +2,14 @@ class Solution {
 public:
     
     int change(int amount, vector<int>& coins, int i, vector<vector<int>>& dp)
-    {
-        // if(amount == 0) return 1;
-        
-        if(i == coins.size()-1)
+    { 
+        if(amount == 0)
         {
-            if(amount%coins[i] == 0)
-                return amount/coins[i];
-            return 1e9;
+            return 0;
         }
+        
+        if(amount < 0  ||  i == coins.size())
+            return 1e9;
         
         if(dp[i][amount] != -1)
             return dp[i][amount];
