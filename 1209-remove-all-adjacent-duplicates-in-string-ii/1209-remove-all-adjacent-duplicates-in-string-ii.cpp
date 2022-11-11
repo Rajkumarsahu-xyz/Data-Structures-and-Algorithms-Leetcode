@@ -4,12 +4,10 @@ public:
     {
         stack<pair<char, int>> st;
         st.push({s[0], 1});
-        int ctr=1;
         for(int i=1; i<s.length(); i++)
         {
             if(st.size() > 0  &&  st.top().first == s[i])
             {
-                ctr++;
                 st.top().second++;
                 if(st.top().second == k)
                 {
