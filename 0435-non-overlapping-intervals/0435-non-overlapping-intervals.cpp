@@ -11,7 +11,7 @@ public:
             return 0;
         sort(intervals.begin(), intervals.end(), comp);
         int count = -1;
-        vector<int> prev= intervals[0];
+        vector<int> prev = intervals[0];
         
         for(vector<int> x: intervals)
         {
