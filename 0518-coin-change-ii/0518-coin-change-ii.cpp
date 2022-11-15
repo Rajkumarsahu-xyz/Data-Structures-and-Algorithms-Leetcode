@@ -3,20 +3,26 @@ public:
     
     int coinchange(int amount, vector<int>& coins, int n, vector<vector<int>>& dp)
     {
-        if(n == 0)
+        for(int x=0; x<=amount; x++)
         {
-            return (amount % coins[n] == 0);
+            if(x%coins[0] == 0)
+                dp[0][x] = 1;
         }
         
-        if(dp[n][amount] != -1)
-            return dp[n][amount];
-    
-        int take = 0;
-        if(coins[n] <= amount)
-            take = coinchange(amount-coins[n], coins, n, dp);
-        int notTake = coinchange(amount, coins, n-1, dp);
-    
-        return dp[n][amount] = take+notTake;
+        for(int ind=1; ind<n; ind++)
+        {
+            for(int target=0; target<=amount; target++)
+            {
+                int notTake = dp[ind-1][target];
+                int take = 0;
+                if(coins[ind] <= target)
+                    take = dp[ind][target-coins[ind]];
+                
+                dp[ind][target] = take + notTake;
+            }
+        }
+        
+        return dp[n-1][amount];
     }
     
     
@@ -26,7 +32,7 @@ public:
             return 1;
         
         int n = coins.size();
-        vector<vector<int>> dp(n+1, vector<int>(amount+1, -1));
-        return coinchange(amount, coins, n-1, dp);
+        vector<vector<int>> dp(n+1, vector<int>(amount+1, 0));
+        return coinchange(amount, coins, n, dp);
     }
 };
