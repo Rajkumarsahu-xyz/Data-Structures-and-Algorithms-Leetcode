@@ -2,25 +2,29 @@ class Solution {
 public:
     int targetsum(vector<int>& nums, int n, int target, vector<vector<int>>& dp)
     {
-        if(n == 0)
+        
+        for(int i=0; i<n; i++)
+            dp[i][0] = 1;
+        if(nums[0] <= target)
+            dp[0][nums[0]] = 1;
+        if(nums[0] == 0)
+            dp[0][0] = 2;
+        
+        for(int ind=1; ind<n; ind++)
         {
-            if(target==0  &&  nums[0]==0)
-                return 2;
-            else if(target==0  || nums[0]==target)
-                return 1;
-            else
-                return 0;
+            for(int tar=0; tar<=target; tar++)
+            {
+                int notTake = dp[ind-1][tar];
+                int take = 0;
+                if(nums[ind] <= tar)
+                    take += dp[ind-1][tar-nums[ind]];
+            
+                dp[ind][tar] = (notTake + take)%(1000000007);
+            }
         }
+    
+        return dp[n-1][target];
         
-        if(dp[n][target] != -1)
-            return dp[n][target];
-        
-        int notTake = 0 + targetsum(nums, n-1, target, dp);
-        int take = 0;
-        if(nums[n] <= target)
-            take = targetsum(nums, n-1, target-nums[n], dp);
-        
-        return dp[n][target] = notTake + take;
     }
     
     int findTargetSumWays(vector<int>& nums, int target)
@@ -38,7 +42,7 @@ public:
             return 0;
         
         int s = (sum - target)/2;
-        vector<vector<int>> dp(n+1, vector<int> (s+1, -1));
-        return targetsum(nums, n-1, s, dp);
+        vector<vector<int>> dp(n+1, vector<int> (s+1, 0));
+        return targetsum(nums, n, s, dp);
     }
 };
