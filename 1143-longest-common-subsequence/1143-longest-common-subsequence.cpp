@@ -1,26 +1,36 @@
 class Solution {
 public:
     
-    // int dp[1001][1001];
-    int subsequences(string &text1, string &text2, int m, int n, vector<vector<int>>& dp)
+    int lcs(string text1, string text2, int n, int m, vector<vector<int>>& dp)
     {
-        if(m == 0 || n == 0)
-            return 0;
+        for(int i=0; i<=n; i++)
+            dp[i][0] = 0;
+        for(int j=0; j<=m; j++)
+            dp[0][j] = 0;
         
-        if(text1[m-1] == text2[n-1])
-            return dp[m][n] = 1 + subsequences(text1, text2, m-1, n-1, dp);
+        for(int n1=1; n1<=n; n1++)
+        {
+            for(int m1=1; m1<=m; m1++)
+            {
+                int match=0, notMatch=0;
+                if(text1[n1-1] == text2[m1-1])
+                    match = 1 + dp[n1-1][m1-1];
+                else
+                    notMatch = 0 + max(dp[n1-1][m1], dp[n1][m1-1]);
+                
+                dp[n1][m1] = match + notMatch;
+            }
+        }
         
-        if(dp[m][n] != -1)
-            return dp[m][n];
-        
-        return dp[m][n] = max(subsequences(text1, text2, m-1, n, dp), subsequences(text1, text2, m, n-1, dp));
+        return dp[n][m];
     }
     
-    int longestCommonSubsequence(string text1, string text2) 
+    int longestCommonSubsequence(string text1, string text2)
     {
-        int m = text1.length();
-        int n = text2.length();
-        vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
-        return subsequences(text1, text2, m, n, dp);
+        int n = text1.length();
+        int m = text2.length();
+        
+        vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+        return lcs(text1, text2, n, m, dp);
     }
 };
