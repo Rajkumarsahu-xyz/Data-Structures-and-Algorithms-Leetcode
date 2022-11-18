@@ -15,26 +15,17 @@ public:
         return sq;
     }
     
-    bool isHappy(int n) 
+    bool isHappy(int n)
     {
-        if(n == 1)
-            return true;
-        vector<int> sqnum;
-        sqnum.push_back(n);
+        int slow = sqk(n);
+        int fast = sqk(sqk(n));
         
-        int a = n;
-        while(a > 1)
+        while(slow != fast)
         {
-            a = sqk(a);
-            cout << a << " " ;
-            if(a == 1)
-                return true;
-            else if(find(sqnum.begin(), sqnum.end(), a) != sqnum.end())
-                return false;
-            else
-                sqnum.push_back(a);
+            slow = sqk(slow);
+            fast = sqk(sqk(fast));
         }
         
-        return true;
+        return fast == 1;
     }
 };
