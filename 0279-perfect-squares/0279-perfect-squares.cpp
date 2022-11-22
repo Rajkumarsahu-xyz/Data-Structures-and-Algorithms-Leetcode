@@ -2,24 +2,24 @@ class Solution {
 public:
     int squares(int n, vector<int>& dp)
     {
-        if(n == 0)
-            return 0;
+        dp[0] = 0;
         
-        if(dp[n] != -1)
-            return dp[n];
-        
-        int ctr = INT_MAX;
-        for(int i=1; i*i<=n; i++) 
+        for(int ind=1; ind<=n; ind++)
         {
-            ctr = min(ctr, 1 + squares(n-i*i, dp));
+            int ctr = 1e9;
+            for(int sq=1; sq*sq<=ind; sq++)
+            {
+                ctr = min(ctr, 1 + dp[ind - (sq*sq)]);
+            }
+            dp[ind] = ctr;
         }
         
-        return dp[n] = ctr;
+        return dp[n];
     }
     
     int numSquares(int n) 
     {
-        vector<int> dp(n+1, -1);
+        vector<int> dp(n+1, 1e9);
         return squares(n, dp);
     }
 };
