@@ -21,7 +21,7 @@ public:
         int right = dia(root->right, res);
         
         int temp = 1+max(left,right);
-        res = max(res, 1+left+right);
+        res = max(res, left+right);
         return temp;
     }
     
@@ -29,6 +29,6 @@ public:
     {
         int res = 0;
         int h = dia(root, res);
-        return res-1;
+        return res;
     }
 };
