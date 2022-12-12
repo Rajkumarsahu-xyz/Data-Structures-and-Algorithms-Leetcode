@@ -13,8 +13,7 @@ public:
             else if(k < n)
                 i = mid+1;
             else
-                j = mid-1;
-            
+                j = mid-1;  
         }
         
         return j;
