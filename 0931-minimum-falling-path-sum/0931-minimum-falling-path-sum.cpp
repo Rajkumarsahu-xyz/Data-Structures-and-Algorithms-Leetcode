@@ -1,53 +1,33 @@
 class Solution {
 public:
-    
-    int fallingPathSum(vector<vector<int>>& matrix, int n)
+    int minPathSum(vector<vector<int>>& matrix, int i, int j, int n, vector<vector<int>>& dp)
     {
-        vector<int> prev(n, -1);
-        for(int j=0; j<n; j++)
+        if(j<0 || j>n)
+            return 1e9;
+        if(i==n)
+            return matrix[i][j];
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        
+        int ans = 1e9;
+        for(int k=-1; k<=1; k++)
         {
-            prev[j] = matrix[n-1][j];
+            ans = min(ans, matrix[i][j] + minPathSum(matrix, i+1, j+k, n, dp));
         }
         
-        for(int i=n-2; i>=0; i--)
-        {
-            vector<int> curr(n, -1);
-            for(int j=n-1; j>=0; j--)
-            {
-                int downsum = matrix[i][j] + prev[j];
-                
-                int leftdgsum = matrix[i][j];
-                if(j-1>=0)
-                    leftdgsum += prev[j-1];
-                else
-                    leftdgsum += 1e9;
-                
-                int rightdgsum = matrix[i][j];
-                if(j+1<=n-1)
-                    rightdgsum += prev[j+1];
-                else
-                    rightdgsum += 1e9;
-                
-                curr[j] = min(downsum, min(rightdgsum, leftdgsum));
-            }
-            prev = curr;
-        }
-        
-        int ans = INT_MAX;
-    
-        for(int j=0; j<n; j++)
-        {
-            ans = min(ans, prev[j]);
-        }
-        
-        return ans;
+        return dp[i][j] = ans;
     }
     
     int minFallingPathSum(vector<vector<int>>& matrix) 
     {
         int n = matrix.size();
-        
-        return fallingPathSum(matrix, n);
-        
+        int i=0, ans=1e9;
+        for(int j=0; j<n; j++)
+        {
+            vector<vector<int>> dp(n+1, vector<int> (n+1, -1));
+            ans = min(ans, minPathSum(matrix, i, j, n-1, dp));
+        }
+        return ans;
     }
 };
