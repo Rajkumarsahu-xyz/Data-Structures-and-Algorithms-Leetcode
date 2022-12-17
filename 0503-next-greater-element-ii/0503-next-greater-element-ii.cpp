@@ -3,16 +3,15 @@ public:
     vector<int> nextGreaterElements(vector<int>& nums) 
     {
         int n = nums.size();
-        nums.resize(2*n);
-        
-        for(int i=n; i<2*n; i++)
-        {
-            nums[i] = nums[i-n];
-        }
-        
         stack<int> stk;
         vector<int> ans;
-        for(int i=(2*n)-1; i>=0; i--)
+        
+        for(int i=n-1; i>=0; i--)
+        {
+            stk.push(nums[i]);
+        }
+        
+        for(int i=n-1; i>=0; i--)
         {
             if(stk.size()>0  &&  stk.top()>nums[i])
             {
@@ -40,7 +39,6 @@ public:
         }
 
         reverse(ans.begin(), ans.end());
-        ans.resize(n);
         return ans;
     }
 };
