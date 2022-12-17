@@ -2,43 +2,30 @@ class Solution {
 public:
     int evalRPN(vector<string>& tokens) 
     {
-        stack<string> stk;
-        for(int i=tokens.size()-1; i>=0; i--)
+        unordered_map<string, function<long long int (long long int, long long int) > > map = {
+            { "+" , [] (long long int a, long long int b) { return a + b; } },
+            { "-" , [] (long long int a, long long int b) { return a - b; } },
+            { "*" , [] (long long int a, long long int b) { return a * b; } },
+            { "/" , [] (long long int a, long long int b) { return a / b; } }
+        };
+        
+        stack<long long int> stk;
+        for (string& s : tokens) 
         {
-            stk.push(tokens[i]);
+            if (!map.count(s)) 
+            {
+                stk.push(stoll(s));
+            } 
+            else 
+            {
+                long long int op1 = stk.top();
+                stk.pop();
+                long long int op2 = stk.top();
+                stk.pop();
+                stk.push(map[s](op2, op1));
+            }
         }
         
-        vector<long long int> v;
-        while(!stk.empty())
-        {
-            if(stk.top() != "+" && stk.top() != "-" && stk.top() != "*" && stk.top() != "/")
-            {
-                v.push_back(stoll(stk.top()));
-            }
-            
-            else
-            {
-                long long int x = v.back();
-                v.pop_back();
-                long long int y = v.back();
-                v.pop_back();
-                
-                long long int ans = 0;
-                if(stk.top() == "+")
-                    ans = y + x;
-                else if(stk.top() == "-")
-                    ans = y - x;
-                else if(stk.top() == "*")
-                    ans = y * x;
-                else if(stk.top() == "/")
-                    ans = y / x;
-                
-                v.push_back(ans);
-            }
-            
-            stk.pop();
-        }
-        
-        return v[0];
+        return stk.top();
     }
 };
