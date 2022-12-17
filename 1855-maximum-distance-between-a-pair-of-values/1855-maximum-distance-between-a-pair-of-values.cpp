@@ -2,16 +2,21 @@ class Solution {
 public:
     int maxDistance(vector<int>& nums1, vector<int>& nums2) 
     {
-        int m = int(nums1.size()), n = int(nums2.size());
-        int ans = 0;
+        int ans = 0, p1 = 0, p2 = 0;
         
-        // Iterate over nums1 and find insertion position to nums2.
-        for (int i = 0; i < m; ++i) 
+        while (p1 < nums1.size() && p2 < nums2.size()) 
         {
-            int k = nums2.rend() - lower_bound(nums2.rbegin(), nums2.rend(), nums1[i]);
-            if (k > 0) 
+            // If p1 is larger, we should move on to a smaller p1.
+            if (nums1[p1] > nums2[p2]) 
             {
-                ans = max(ans, k - i - 1);
+                p1++;
+            }
+            
+            // Otherwise, get their distance and move on to a smaller p2.
+            else 
+            {
+                ans = max(ans, p2 - p1);
+                p2++;
             }
         }
         
