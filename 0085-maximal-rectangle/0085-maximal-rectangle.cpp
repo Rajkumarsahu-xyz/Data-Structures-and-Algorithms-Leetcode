@@ -1,9 +1,8 @@
 class Solution {
 public:
-    vector<int> leftmax(vector<long long>& arr, int n)
+    void leftmax(vector<long long>& arr, int n, vector<int>& ans)
     {
         stack<pair<long long, int>> stk;
-        vector<int> ans;
         for(int i=0; i<n; i++)
         {
             if(stk.size() == 0)
@@ -35,15 +34,12 @@ public:
 
             stk.push({arr[i], i});
         }
-
-        return ans;
     }
 
 
-    vector<int> rightmax(vector<long long>& arr, int n)
+    void rightmax(vector<long long>& arr, int n, vector<int>& ans)
     {
         stack<pair<long long, int>> stk;
-        vector<int> ans;
         for(int i=n-1; i>=0; i--)
         {
             if(stk.size() == 0)
@@ -76,14 +72,14 @@ public:
             stk.push({arr[i], i});
         }
         reverse(ans.begin(), ans.end());
-        return ans;
     }
 
 
     long long getMaxArea(vector<long long>& arr, int n)
     {
-        vector<int> left = leftmax(arr, n);
-        vector<int> right = rightmax(arr, n);
+        vector<int> left, right;
+        leftmax(arr, n, left);
+        rightmax(arr, n, right);
 
         long long mx = 0;
         for(int i=0; i<n; i++)
