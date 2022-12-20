@@ -118,7 +118,6 @@ public:
 
             mx = max(mx, getMaxArea(v, m));
         }
-
         return mx;
     }
 };
