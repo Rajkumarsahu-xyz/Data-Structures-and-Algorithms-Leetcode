@@ -24,7 +24,7 @@ public:
     {
         int n = prices.size();
         
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        vector<vector<int>> dp(n+1, vector<int>(2+1, -1));
         return profit(prices, 0, n, 1, dp);
     }
 };
