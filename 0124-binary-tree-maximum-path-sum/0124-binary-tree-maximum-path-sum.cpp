@@ -11,22 +11,22 @@
  */
 class Solution {
 public:
-    int gainFromSubtree(TreeNode* root, int &maxSum) 
+    int pathsum(TreeNode *root, int& mx)
     {
-        if (root == NULL)
+        if(root == NULL)
             return 0;
-
-        int gainFromLeft = max(gainFromSubtree(root->left, maxSum), 0);
-        int gainFromRight = max(gainFromSubtree(root->right, maxSum), 0);
-        maxSum = max(maxSum, gainFromLeft+gainFromRight+root->val);
-
-        return max(gainFromLeft+root->val, gainFromRight+root->val);
+        
+        int left = max(0, pathsum(root->left, mx));
+        int right = max(0, pathsum(root->right, mx));
+        
+        mx = max(mx, root->val+left+right);
+        return root->val + max(left, right);
     }
     
-    int maxPathSum(TreeNode* root) 
+    int maxPathSum(TreeNode* root)
     {
-        int maxSum = INT_MIN;
-        gainFromSubtree(root, maxSum);
-        return maxSum;
+        int mx = INT_MIN;
+        int ans = pathsum(root, mx);
+        return mx;
     }
 };
