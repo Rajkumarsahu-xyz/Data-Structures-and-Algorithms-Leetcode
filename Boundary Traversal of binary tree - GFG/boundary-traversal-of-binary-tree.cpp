@@ -111,35 +111,24 @@ public:
         return !root -> left && !root -> right;
     }
 
-    // void leftBoundary(Node *root, vector<int>& bound)
-    // {
-    //     // if(!root) return;
-    //     // if(!root->left && !root->right) return;
-        
-    //     Node *cur = root->left;
-    //     while(cur)
-    //     {
-    //         if (!isLeaf(cur)) bound.push_back(cur->data);
-    //         if(cur->left)
-    //         {
-    //             cur = cur->left;
-    //         }
-    //         else 
-    //         {
-    //             cur = cur->right;
-    //         }
-    //     }
-    // }
-    
-    void leftBoundary(Node * root, vector < int > & bound) 
+    void leftBoundary(Node *root, vector<int>& bound)
     {
-      Node * cur = root -> left;
-      while (cur)
-      {
-        if (!isLeaf(cur)) bound.push_back(cur -> data);
-        if (cur -> left) cur = cur -> left;
-        else cur = cur -> right;
-      }
+        // if(!root) return;
+        // if(!root->left && !root->right) return;
+        
+        Node *cur = root->left;
+        while(cur)
+        {
+            if (!isLeaf(cur)) bound.push_back(cur->data);
+            if(cur->left)
+            {
+                cur = cur->left;
+            }
+            else 
+            {
+                cur = cur->right;
+            }
+        }
     }
     
     
