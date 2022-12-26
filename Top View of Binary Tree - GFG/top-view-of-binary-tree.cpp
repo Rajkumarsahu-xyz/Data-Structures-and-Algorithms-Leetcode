@@ -115,7 +115,7 @@ class Solution
             q.pop();
             Node* node = t.first;
             int line = t.second;
-            if(mp.find(line) == mp.end()) mp[line] = node->data;
+            if(mp.count(line) == 0) mp[line] = node->data;
             
             if(node->left) q.push({node->left, line-1});
             if(node->right) q.push({node->right, line+1});
