@@ -14,20 +14,17 @@ class Solution {
   public:
     bool isBSTTraversal(vector<int>& nums) 
     {
-        vector<int> temp = nums;
-        sort(temp.begin(), temp.end());
-        
-        unordered_map<int, int> mp;
-        for(int i=0; i<nums.size(); i++)
+        for(int i=1;i<nums.size();i++)
         {
-            if(mp.find(nums[i]) != mp.end())
-            return false;
-            
-            else
-            mp[nums[i]]++;
+            if(nums[i]<=nums[i-1])
+            {
+                return false;
+            }
         }
-        return (temp == nums);
+        
+        return true;
     }
+ 
 };
 
 //{ Driver Code Starts.
