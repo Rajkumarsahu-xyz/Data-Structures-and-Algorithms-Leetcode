@@ -107,63 +107,36 @@ struct Node
 
 // This function finds predecessor and successor of key in BST.
 // It sets pre and suc as predecessor and successor respectively
-#include <bits/stdc++.h>
-void inorder(Node* root, vector<int>& intree)
-{
-    if(root == NULL) return;
-        
-    inorder(root->left, intree);
-    intree.push_back(root->key);
-    inorder(root->right, intree); 
-}
-
 void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
 {
-    vector<int> intree;
-    inorder(root, intree);
-    
-    // for(int i=0; i<intree.size(); i++)
-    // cout << intree[i] << " ";
-    // cout << endl;
-    
-    if(intree[0] > key)
+    Node* t = root;
+    while(t)
     {
-        pre = NULL;
-        suc = new Node(intree[0]);
-    }
-    else if(intree[intree.size()-1] < key)
-    {
-        pre = new Node(intree[intree.size()-1]);
-        suc = NULL;
-    }
-    
-    else
-    {
-        for(int i=0; i<intree.size(); i++)
+        if(t->key <= key)
         {
-            if(intree[i] == key)
-            {
-                if(i==0)
-                pre = NULL;
-                else
-                pre = new Node(intree[i-1]);
-                
-                if(i==intree.size()-1)
-                suc = NULL;
-                else
-                suc = new Node(intree[i+1]);
-                
-                break;
-            }
-            
-            else if(i > 0  && (intree[i-1] < key && intree[i] > key))
-            {
-                pre = new Node(intree[i-1]);
-                suc = new Node(intree[i]);
-                
-                break;
-            }
+            t = t->right;
+        }
+        
+        else
+        {
+            suc = t;
+            t = t->left;
         }
     }
     
+    t = root;
+    while(t)
+    {
+        if(t->key >= key)
+        {
+            t = t->left;
+        }
+        
+        else
+        {
+            pre = t;
+            t = t->right;
+        }
+    }
+
 }
