@@ -25,25 +25,31 @@ struct Node
 
 class Solution {
   public:
-    vector<int> v;
-    void dfs(Node *node,int l) {
-        if(node==NULL) {
-            return;
+    vector<int> maximumValue(Node* node) 
+    {
+        vector<int> ans;
+        queue<Node*> q;
+        q.push(node);
+        
+        while(!q.empty())
+        {
+            int n = q.size();
+            int mx = INT_MIN;
+            for(int i=0; i<n; i++)
+            {
+                Node* t = q.front();
+                q.pop();
+                mx = max(mx, t->data);
+                
+                if(t->left) q.push(t->left);
+                if(t->right) q.push(t->right);
+            }
+            
+            ans.push_back(mx);
         }
-        if(v.size()==l) {
-            v.push_back(node->data);
-        }
-        else if(node->data>v[l]) {
-            v[l]=node->data;
-        }
-        dfs(node->left,l+1);
-        dfs(node->right,l+1);
+        
+        return ans;
     }
-    vector<int> maximumValue(Node* node) {
-        dfs(node,0);
-        return v;
-    }
-
 };
 
 //{ Driver Code Starts.
