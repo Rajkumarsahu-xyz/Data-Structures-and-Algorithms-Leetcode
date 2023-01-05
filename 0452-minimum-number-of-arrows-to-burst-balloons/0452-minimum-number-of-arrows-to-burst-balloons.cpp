@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    static bool cmp(pair<int, int>& a, pair<int, int>& b)
+    static bool comp(pair<int, int>& a, pair<int, int>& b)
     {
         return a.second < b.second;
     }
@@ -14,7 +14,7 @@ public:
             act.push_back({points[i][0], points[i][1]});
         }
         
-        sort(act.begin(), act.end(), cmp);
+        sort(act.begin(), act.end(), comp);
         
         int ctr = 1, prev = act[0].second;
         for(int i=1; i<points.size(); i++)
