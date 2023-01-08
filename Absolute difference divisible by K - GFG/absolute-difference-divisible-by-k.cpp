@@ -7,27 +7,22 @@ using namespace std;
 //User function Template for C++
 
 class Solution {
-  public:
-    int factorial(int n)
-    {
-        return (n == 1 || n == 0) ? 1 : n * factorial(n - 1);
-    }
+public:
     long long countPairs(int n, int arr[], int k) 
     {
-        unordered_map<int, int> m;
-        int ans=0;
-        
-        for(int i=0;i<n;i++)
+        unordered_map<int, int> mp;
+        for(int i=0; i<n; i++)
         {
-            int rem=arr[i]%k;
-            
-            if(m.find(rem)!=m.end())
-            {
-                ans+=m[rem];
-            }
-            m[rem]++;
+            mp[arr[i]%k]++;
         }
-        return ans;
+        
+        int ctr=0;
+        for(auto x : mp)
+        {
+            ctr += (x.second)*(x.second-1)/2;
+        }
+        
+        return ctr;
     }
 };
 
