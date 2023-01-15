@@ -16,17 +16,14 @@ public:
             mp[nums[j]]++;
             while (i<=j && c>=k)
             {
-                if (mp[nums[i]] > 1)
-                {
-                    c -= (mp[nums[i]] - 1);
-                }
+                ctr += (n - j);
                 mp[nums[i]]--;
+                c -= mp[nums[i]];
                 i++;
             }
-            ctr += (j-i+1);
             j++;
         }
         
-        return  (n * (n + 1) / 2) - ctr;
+        return ctr;
     }
 };
