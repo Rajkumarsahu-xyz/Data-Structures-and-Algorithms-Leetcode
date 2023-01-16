@@ -9,35 +9,22 @@ public:
         
         while(j<n)
         {
-//             if (mp[s[j]] > 0) 
-//             {
-//                 c += mp[s[j]];
-//             }
-//             mp[s[j]]++;
-//             while(i<=j && mp[s[j]]<(j-i+1))
-//             {
-//                 ctr += (n-j);
-//                 mp[s[i]]--;
-//                 c -= mp[s[i]];
-//                 i++;
-//             }
-            
-//             j++;
-            
-            mp[s[j]]++;
-            if(mp[s[j]]==(j-i+1))
+            if (mp[s[j]] > 0) 
+            {
                 c += mp[s[j]];
+            }
+            mp[s[j]]++;
             while(i<=j && mp[s[j]]<(j-i+1))
             {
+                ctr = (ctr+(n-j)) % (1000000007);
                 mp[s[i]]--;
-                c = 1;
+                c -= mp[s[i]];
                 i++;
             }
-            ctr = (ctr+c)%(1000000007);
-            c = 0;
+            
             j++;
         }
         
-        return ctr%(1000000007);
+        return ((n*(n+1)/2) - ctr) % (1000000007);
     }
 };
