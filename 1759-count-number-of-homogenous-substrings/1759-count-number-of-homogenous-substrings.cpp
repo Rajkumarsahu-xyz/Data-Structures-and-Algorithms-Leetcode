@@ -1,32 +1,43 @@
 class Solution {
 public:
-    int countHomogenous(string s) {
-        int n=s.size();
-        int i=0,j=0;
-        
-        long long ans=0;
-        unordered_map<char,long long>m;
+    int countHomogenous(string s) 
+    {
+        long long n = s.length();
+        long long i=0, j=0, ctr=0;
+        unordered_map<char, long long> mp;
+        long long c = 0;
         
         while(j<n)
         {
-            m[s[j]]++;
+//             if (mp[s[j]] > 0) 
+//             {
+//                 c += mp[s[j]];
+//             }
+//             mp[s[j]]++;
+//             while(i<=j && mp[s[j]]<(j-i+1))
+//             {
+//                 ctr += (n-j);
+//                 mp[s[i]]--;
+//                 c -= mp[s[i]];
+//                 i++;
+//             }
             
-            while(m.size()>1)
+//             j++;
+            
+            mp[s[j]]++;
+            if(mp[s[j]]==(j-i+1))
+                c += mp[s[j]];
+            while(i<=j && mp[s[j]]<(j-i+1))
             {
-                m[s[i]]--;
-                
-                if(m[s[i]]==0)
-                    m.erase(s[i]);
+                mp[s[i]]--;
+                c = 1;
                 i++;
             }
-            if(m.size()==1)
-            {
-                ans+=(j-i+1);
-                ans=ans%1000000007;
-            }
-            
+            ctr = (ctr+c)%(1000000007);
+            c = 0;
             j++;
         }
-        return ans;
+        
+        return ctr%(1000000007);
     }
 };
