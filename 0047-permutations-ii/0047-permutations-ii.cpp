@@ -1,30 +1,15 @@
 class Solution {
 public:
-    void permutations(vector<int> nums, int i, int n, vector<vector<int>>& ans)
+    vector<vector<int>> permuteUnique(vector<int>& nums) 
     {
-        if(i == n-1)
+        sort(nums.begin(), nums.end());
+		
+        vector<vector<int>> ans;
+        ans.push_back(nums);
+        while (next_permutation(nums.begin(), nums.end())) 
         {
             ans.push_back(nums);
-            return;
         }
-        
-        for(int j=i; j<n; j++)
-        {
-            if(j != i && nums[j]==nums[i])
-                continue;
-            swap(nums[i], nums[j]);
-            permutations(nums, i+1, n, ans);
-            // swap(nums[i], nums[j]);
-        }
-    }
-    
-    vector<vector<int>> permuteUnique(vector<int>& nums)
-    {
-        int n = nums.size();
-        sort(nums.begin(), nums.end());
-        vector<vector<int>> ans;
-        permutations(nums, 0, n, ans);
-        //sort(ans.begin(), ans.end());
         return ans;
     }
 };
