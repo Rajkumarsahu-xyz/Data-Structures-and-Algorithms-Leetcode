@@ -31,6 +31,8 @@ public:
     
     ListNode* removeNodes(ListNode* head) 
     {
+        if(!head || !head->next)
+            return head;
         ListNode* k = reverseList(head);
         ListNode *p = k, *q = k->next;
         while(q)
