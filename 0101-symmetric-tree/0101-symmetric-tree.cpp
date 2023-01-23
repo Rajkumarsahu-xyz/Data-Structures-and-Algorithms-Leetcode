@@ -11,22 +11,22 @@
  */
 class Solution {
 public:
-    
-    bool isSym(TreeNode* l, TreeNode* r)
+    bool symmetricity(TreeNode* l, TreeNode* r)
     {
-        if(!l && !r)
-            return true;
-        else if((!l && r)  ||  (l && !r))
+        if(l && r)
+        {   
+            return (l->val==r->val) && symmetricity(l->left, r->right) && symmetricity(l->right, r->left);
+        }
+        if(!l&&r || l&&!r)
             return false;
-        
-        return (l->val==r->val) && isSym(l->left, r->right) && isSym(l->right, r->left);
+        else
+            return true;
     }
     
     bool isSymmetric(TreeNode* root) 
     {
-        if(!root)
-            return true;
-        else
-            return isSym(root->left, root->right);
+        if(!root->left && !root->right)
+            return root;
+        return symmetricity(root->left, root->right);
     }
 };
