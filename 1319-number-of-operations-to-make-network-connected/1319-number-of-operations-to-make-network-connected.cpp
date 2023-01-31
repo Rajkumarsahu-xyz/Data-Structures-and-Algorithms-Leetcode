@@ -18,10 +18,10 @@ public:
         if(connections.size() < n-1)
             return -1;
         vector<int> adj[n];
-        for(auto &x : connections)
+        for(int i=0; i<connections.size();i++)
         {
-            adj[x[0]].push_back(x[1]);
-            adj[x[1]].push_back(x[0]);
+            adj[connections[i][0]].push_back(connections[i][1]);
+            adj[connections[i][1]].push_back(connections[i][0]);
         }
         
         vector<int> visited(n);
