@@ -21,7 +21,7 @@ public:
                   zeroCount++;
               }
 
-              while(zeroCount>m)
+              while(zeroCount>m && i<n)
               {
                     if(arr[i]==0)
                     {
