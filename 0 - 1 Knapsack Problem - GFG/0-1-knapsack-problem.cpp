@@ -8,32 +8,37 @@ class Solution
 {
     public:
     //Function to return max value that can be put in knapsack of capacity W.
-    int sack(int weight[], int value[], int n, int maxWeight, vector<vector<int>>& dp)
+    int knap(int W, int wt[], int val[], int n, vector<vector<int>>& dp)
     {
-        if(n == 0)
+        if(n==0)
         {
-            if(weight[n] <= maxWeight)
-                return value[n];
+            if(wt[n] <= W)
+            {
+                return val[n];
+            }
+            
             return 0;
         }
-    
-        if(dp[n][maxWeight] != -1)
-            return dp[n][maxWeight];
-    
-        int notSteal = sack(weight, value, n-1, maxWeight, dp);
-        int Steal = 0;
-        if(weight[n] <= maxWeight)
+        
+        if(dp[n][W] != -1)
         {
-            Steal = value[n] + sack(weight, value, n-1, maxWeight-weight[n], dp);
+            return dp[n][W];
         }
-    
-        return dp[n][maxWeight] = max(notSteal, Steal);
+        
+        int nottake = 0 + knap(W, wt, val, n-1, dp);
+        int take = 0;
+        if(wt[n] <= W)
+        {
+            take = val[n] + knap(W-wt[n], wt, val, n-1, dp);
+        }
+        
+        return dp[n][W] = max(take, nottake);
     }
-
+    
     int knapSack(int W, int wt[], int val[], int n) 
     {
-        vector<vector<int>> dp(n+1, vector<int> (W+1, -1));
-        return sack(wt, val, n-1, W, dp);
+        vector<vector<int>> dp(n+1, vector<int>(W+1, -1));
+        return knap(W, wt, val, n-1, dp);
     }
 };
 
