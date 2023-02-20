@@ -16,7 +16,7 @@ public:
                 j = mid-1;
         }
         
-        if(nums[nums.size()-1] < target  ||  nums[mid]<target)
+        if(nums[nums.size()-1] < target  ||  nums[mid] < target)
             return mid+1;
         else
             return mid;
