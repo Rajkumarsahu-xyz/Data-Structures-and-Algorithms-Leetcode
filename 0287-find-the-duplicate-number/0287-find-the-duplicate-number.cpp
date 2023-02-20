@@ -1,26 +1,39 @@
 class Solution {
 public:
+    bool check(vector<int>& nums, int mid)
+    {
+        int ctr = 0;
+        for(int i=0; i<nums.size(); i++)
+        {
+            if(nums[i] <= mid)
+                ctr++;
+            if(ctr > mid)
+                return true;
+        }
+        
+        return false;
+    }
+    
     int findDuplicate(vector<int>& nums) 
     {
-
-        // Find the intersection point of the two runners.
-        int tortoise = nums[0];
-        int hare = nums[0];
-
-        do 
+        int n = nums.size();
+        int i=1, j=n;
+        int ans = 0;
+        while(i<=j)
         {
-            tortoise = nums[tortoise];
-            hare = nums[nums[hare]];
-        } while (tortoise != hare);
-
-        // Find the "entrance" to the cycle.
-        tortoise = nums[0];
-        while (tortoise != hare) 
-        {
-            tortoise = nums[tortoise];
-            hare = nums[hare];
+            int mid = i + (j-i)/2;
+            if(check(nums, mid))
+            {
+                ans = mid;
+                j = mid-1;
+            }
+            
+            else
+            {
+                i = mid+1;
+            }
         }
-
-        return hare;
+        
+        return ans;
     }
 };
