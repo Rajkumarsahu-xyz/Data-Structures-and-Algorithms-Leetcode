@@ -16,8 +16,8 @@ public:
         q.push({x-1, y-1});
         visited[x-1][y-1] = 1;
         int ctr = 0;
-                vector<int> rows = {-1, 0, 1, 0};
-                vector<int> cols = {0, -1, 0, 1};
+        vector<int> rows = {-1, 0, 1, 0};
+        vector<int> cols = {0, -1, 0, 1};
         while(!q.empty())
         {
             int len = q.size();
@@ -32,7 +32,6 @@ public:
                 {
                     if(r+rows[k]>=0 && r+rows[k]<=N-1 && c+cols[k]>=0 && c+cols[k]<=M-1 && visited[r+rows[k]][c+cols[k]]==0)
                     {
-                        p=1;
                         visited[r+rows[k]][c+cols[k]] = 1;
                         q.push({r+rows[k], c+cols[k]});
                     }
@@ -40,11 +39,10 @@ public:
                 
             }
             
-            // if(!q.empty())
-            // {
-            //     ctr++;
-            // }
-            if(p) ctr++;
+            if(!q.empty())
+            {
+                ctr++;
+            }
         }
         
         return ctr;
