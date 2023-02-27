@@ -10,7 +10,14 @@ public:
         
         if(n1<0)
         {
-            return (word2[n2] == '*' && lcs(word1, word2, n1, n2-1, dp));
+            // return (word2[n2] == '*' && lcs(word1, word2, n1, n2-1, dp));
+            while(n2 >= 0)
+            {
+                if(word2[n2] != '*')
+                    return false;
+                n2--;
+            }
+            return 1;
         }
         
         if(dp[n1][n2] != -1)
