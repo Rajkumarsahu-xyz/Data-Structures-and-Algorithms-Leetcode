@@ -1,81 +1,27 @@
 class Solution {
 public:
-    long long countSubarrays(vector<int>& nums, int minK, int maxK) 
-    {
-        long res = 0;
-        int minFound = 0, maxFound = 0;
-        int start = 0, minStart = 0, maxStart = 0;
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        // minPosition, maxPosition: the MOST RECENT positions of minK and maxK.
+        // leftBound: the MOST RECENT value outside the range [minK, maxK].
+        long long answer = 0;
+        int minPosition = -1, maxPosition = -1, leftBound = -1;
         
-        for (int i = 0; i < nums.size(); i++) 
-        {
-            if (nums[i] < minK || nums[i] > maxK) 
-            {
-                minFound = 0;
-                maxFound = 0;
-                start = i+1;
-            }
+        // Iterate over nums, for each number at index i:
+        for (int i = 0; i < nums.size(); ++i) {
+            // If the number is outside the range [minK, maxK], update the most recent leftBound.
+            if (nums[i] < minK || nums[i] > maxK)
+                leftBound = i;
             
+            // If the number is minK or maxK, update the most recent position.
             if (nums[i] == minK) 
-            {
-                minFound = 1;
-                minStart = i;
-            }
-            
-            if (nums[i] == maxK) 
-            {
-                maxFound = 1;
-                maxStart = i;
-            }
-            
-            if (minFound && maxFound) 
-            {
-                res += (min(minStart - start, maxStart - start) + 1);
-            }
-            
+                minPosition = i;
+            if (nums[i] == maxK)
+                maxPosition = i;
+
+            // The number of valid subarrays equals the number of elements between leftBound and 
+            // the smaller of the two most recent positions (minPosition and maxPosition).
+            answer += max(0, min(maxPosition, minPosition) - leftBound);
         }
-        
-        return res;
+        return answer;
     }
 };
-
-
-
-
-
-// class Solution {
-// public:
-//     long long countSubarrays(vector<int>& nums, int minK, int maxK) 
-//     {
-//         int k = 2;
-        
-//         int l=0, r=0;
-//         int ctr = 0;
-//         for(int i=0; i<nums.size(); i++)
-//         {
-//             if(k == 0  &&  l!=-1  &&  r!=-1)
-//             {
-//                 ctr++;
-//             }
-//             if(nums[i]<minK || nums[i]>maxK)
-//             {
-//                 k = 2;
-//                 l = -1;
-//                 r = -1;
-//             }
-//             if(nums[i] == minK)
-//             {
-//                 l = i;
-//                 k--;
-//             }
-            
-//             if(nums[i] == maxK)
-//             {
-//                 r = i;
-//                 k--;
-//             }
-            
-//         }
-        
-//         return ctr;
-//     }
-// };
