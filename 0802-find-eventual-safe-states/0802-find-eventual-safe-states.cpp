@@ -8,7 +8,7 @@ public:
         
         for(auto x : graph[start])
         {
-            if(path_visited[x] == 1)
+            if(visited[x] == 1  &&  path_visited[x] == 1)
             {
                 check[start] = 0;
                 return true;
