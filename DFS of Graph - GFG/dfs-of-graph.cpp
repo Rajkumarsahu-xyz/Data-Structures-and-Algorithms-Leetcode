@@ -7,15 +7,16 @@ class Solution {
   public:
     // Function to return a list containing the DFS traversal of the graph.
     
-    void dfs(vector<int> adj[], int node, vector<int>& visited, vector<int>& ans)
+    void dfs(vector<int> adj[], int node, vector<int> &ans, vector<int> &visited)
     {
         visited[node] = 1;
         ans.push_back(node);
+        
         for(auto x : adj[node])
         {
-            if(!visited[x])
+            if(visited[x] == 0)
             {
-                dfs(adj, x, visited, ans);
+                dfs(adj, x, ans, visited);
             }
         }
     }
@@ -23,10 +24,9 @@ class Solution {
     vector<int> dfsOfGraph(int V, vector<int> adj[]) 
     {
         vector<int> ans;
-        vector<int> visited(V, 0);
-        int start = 0;
+        vector<int> visited(V);
         
-        dfs(adj, start, visited, ans);
+        dfs(adj, 0, ans, visited);
         return ans;
     }
 };
