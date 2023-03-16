@@ -17,15 +17,15 @@ class Solution {
         
         while(!q.empty())
         {
-            int t = q.front();
+            int node = q.front();
             q.pop();
-            ans.push_back(t);
-            for(auto x : adj[t])
+            ans.push_back(node);
+            for(auto x : adj[node])
             {
-                if(!visited[x])
+                if(visited[x] == 0)
                 {
-                    visited[x] = 1;
                     q.push(x);
+                    visited[x] = 1;
                 }
             }
         }
