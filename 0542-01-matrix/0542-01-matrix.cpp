@@ -18,29 +18,29 @@ public:
 	        }
 	    }
 	    
-	    int delrow[] = {-1, 0, +1, 0}; 
-	    int delcol[] = {0, +1, 0, -1};
+	    int delrow[] = {0, 0, -1, 1}; 
+	    int delcol[] = {-1, 1, 0, 0};
 	    
-	    while(!q.empty()) 
-	    {
-	        int row = q.front().first.first; 
-	        int col = q.front().first.second; 
-	        int steps = q.front().second; 
-	        q.pop(); 
-	        distance[row][col] = steps;
-
-	        for(int i = 0;i<4;i++) 
-	        {
-	            int nrow = row + delrow[i]; 
-	            int ncol = col + delcol[i]; 
-
-	            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && visited[nrow][ncol] == 0) 
-	            {
-	                visited[nrow][ncol] = 1; 
-	                q.push({{nrow, ncol}, steps+1});  
-	            }
-	        }
-	    }
+	    while(!q.empty())
+        {
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int dis = q.front().second;
+            distance[r][c] = dis;
+            
+            q.pop();
+            for(int i=0; i<4; i++)
+            {
+                int row = r + delrow[i];
+                int col = c + delcol[i];
+                
+                if(row>=0 && row<n && col>=0 && col<m && visited[row][col]==0 && grid[row][col]==1)
+                {
+                    visited[row][col] = 1; 
+	                q.push({{row, col}, dis+1});
+                }
+            }
+        }
 	    
 	    return distance;
     }
