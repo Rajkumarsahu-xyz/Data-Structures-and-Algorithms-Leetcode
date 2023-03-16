@@ -24,7 +24,7 @@ class Solution {
     int numProvinces(vector<vector<int>> adj, int V) 
     {
         vector<int> ans;
-        vector<int> visited(V, 0);
+        vector<int> visited(V);
         vector<int> adjlist[V];
         for(int i=0; i<V; i++)
         {
@@ -41,12 +41,13 @@ class Solution {
         int ctr = 0;
         for(int i=0; i<V; i++)
         {
-            if(!visited[i])
+            if(visited[i] == 0)
             {
                 ctr++;
                 dfs(adjlist, i, visited, ans);
             }
         }
+        
         return ctr;
     }
 };
