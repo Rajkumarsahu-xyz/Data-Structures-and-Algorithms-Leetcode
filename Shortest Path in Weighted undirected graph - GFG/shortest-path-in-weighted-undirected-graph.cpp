@@ -46,27 +46,14 @@ class Solution {
             }
         }
         
-        int flag = -1;
-        for(int i=0; i<parent.size(); i++)
-        {
-            if(i!=1 && parent[i] == 1)
-            {
-                flag = 0;
-                break;
-            }
-            // cout << parent[i] <<  " ";
-        }
-        // cout << endl;
-        if(flag == -1) return {-1};
+        if(distance[n] == 1e9)
+            return {-1};
         
         vector<int> ans;
         int i = n;
-        ans.push_back(n);
-        while(parent[i] != 1)
+        while(parent[i] != i)
         {
-            if(parent[i] == i)
-                return {-1};
-            ans.push_back(parent[i]);
+            ans.push_back(i);
             i = parent[i];
         }
         
