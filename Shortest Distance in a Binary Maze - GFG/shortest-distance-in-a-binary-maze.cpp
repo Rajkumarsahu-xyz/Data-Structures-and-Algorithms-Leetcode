@@ -8,7 +8,7 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-#define pi pair<int, int>
+#define pi pair<int, pair<int, int>>
 class Solution {
   public:
     int shortestPath(vector<vector<int>> &grid, pair<int, int> source, pair<int, int> destination) 
@@ -19,18 +19,19 @@ class Solution {
             return 0;
         }
         
-        queue<pair<pair<int, int>, int>> q;
-        q.push({{source.first, source.second}, 0});
+        
+        priority_queue<pi, vector<pi>, greater<pi>> pq;
+        pq.push({0, {source.first, source.second}});
         int destx = destination.first;
         int desty = destination.second;
         
         vector<int> del = {-1, 0, 1, 0, -1};
-        while(!q.empty())
+        while(!pq.empty())
         {
-            int x = q.front().first.first;
-            int y = q.front().first.second;
-            int dis = q.front().second;
-            q.pop();
+            int x = pq.top().second.first;
+            int y = pq.top().second.second;
+            int dis = pq.top().first;
+            pq.pop();
             
             for(int i=0; i<4; i++)
             {
@@ -42,7 +43,7 @@ class Solution {
                     if(x1 ==  destx  &&  y1 == desty)
                         return dis+1;
                     grid[x1][y1] = 0;
-                    q.push({{x1, y1}, dis+1});
+                    pq.push({dis+1, {x1, y1}});
                 }
             }
         }
