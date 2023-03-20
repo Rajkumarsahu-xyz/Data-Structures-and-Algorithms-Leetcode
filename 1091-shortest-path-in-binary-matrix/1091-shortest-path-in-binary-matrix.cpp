@@ -1,3 +1,5 @@
+#define pi pair<int, pair<int, int>>
+
 class Solution {
 public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) 
@@ -14,18 +16,18 @@ public:
         if(grid[0][0] == 1  ||  grid[n-1][n-1] == 1)
             return -1;
         
-        queue<pair<pair<int, int>, int>> q;
-        q.push({{0, 0}, 1});
+        priority_queue<pi, vector<pi>, greater<pi>> pq;
+        pq.push({1, {0, 0}});
         int destx = n-1;
         int desty = n-1;
         
         vector<int> del = {-1, -1, 0, 1, 1, 0, -1, 1, -1};
-        while(!q.empty())
+        while(!pq.empty())
         {
-            int x = q.front().first.first;
-            int y = q.front().first.second;
-            int dis = q.front().second;
-            q.pop();
+            int x = pq.top().second.first;
+            int y = pq.top().second.second;
+            int dis = pq.top().first;
+            pq.pop();
             
             for(int i=0; i<8; i++)
             {
@@ -37,7 +39,7 @@ public:
                     if(x1 ==  destx  &&  y1 == desty)
                         return dis+1;
                     grid[x1][y1] = 1;
-                    q.push({{x1, y1}, dis+1});
+                    pq.push({dis+1, {x1, y1}});
                 }
             }
         }
