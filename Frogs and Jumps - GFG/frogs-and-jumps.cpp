@@ -10,6 +10,7 @@ class Solution {
   public:
     int unvisitedLeaves(int N, int leaves, int frogs[]) 
     {
+        sort(frogs, frogs+N);
         vector<int> visited(leaves+1, 0);
         for(int i=0; i<N; i++)
         {
