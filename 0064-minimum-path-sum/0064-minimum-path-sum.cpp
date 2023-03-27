@@ -1,29 +1,33 @@
 class Solution {
 public:
-    
-    int minpath(vector<vector<int>>& grid, int n, int m, vector<vector<int>> &dp)
-    {
-        if(n==0 && m==0)
-            return grid[0][0];
-        if(dp[n][m] != -1)
-            return dp[n][m];
-        
-        int sum = 0;
-        int l = 1e9, u = 1e9;
-        
-        if(n-1>=0)
-            u = minpath(grid, n-1, m, dp);
-        if(m-1>=0)
-            l = minpath(grid, n, m-1, dp);
-        sum += (grid[n][m] + min(u, l));
-        
-        return dp[n][m] = sum;
-    }
-    
     int minPathSum(vector<vector<int>>& grid) 
     {
-        int n = grid.size(), m = grid[0].size();
-        vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
-        return minpath(grid, n-1, m-1, dp);
+        int n = grid.size();
+        int m = grid[0].size();
+        priority_queue<pair<int, pair<int, int>>> q;
+        q.push({-grid[0][0], {0, 0}});
+        
+        grid[0][0]=-1;
+        while(q.size()) 
+        {
+            pair<int, pair<int, int>> tmp = q.top();
+            int x = tmp.second.first;
+            int y = tmp.second.second;
+            
+            if(x == n-1 && y == m-1) 
+                break;
+            q.pop();
+            grid[x][y]=-1;
+            if((x+1) < n&& grid[x+1][y]!=-1) 
+            {
+                q.push({(tmp.first-grid[x+1][y]), {x+1, y}});
+            }
+            if((y+1) < m && grid[x][y+1]!=-1) 
+            {
+                q.push({(tmp.first-grid[x][y+1]), {x, y+1}});
+            }
+        }
+        
+        return -q.top().first;
     }
 };
