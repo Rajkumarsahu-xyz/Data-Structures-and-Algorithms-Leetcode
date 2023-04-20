@@ -26,9 +26,9 @@ public:
                 long long index = q.front().second - mn_ind;
                 TreeNode* t = q.front().first;
                 q.pop();
-                if (i==0) 
+                if (i==0)
                     l = index;
-                if (i==n-1) 
+                if (i==n-1)
                     r = index;
                 
                 if (t->left)
