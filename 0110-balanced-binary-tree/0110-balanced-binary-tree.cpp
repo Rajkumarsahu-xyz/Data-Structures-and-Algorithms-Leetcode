@@ -9,29 +9,66 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+class Pair {
+    public:
+        int H;
+        bool B;
+    Pair(int h, bool b)
+    {
+        H = h;
+        B = b;
+    }
+};
+
 class Solution {
 public:
-    int isBal(TreeNode *root)
+    
+    Pair checkBalance(TreeNode* root)
     {
-        if(root == NULL)
-        return 0;
         
-        int left = isBal(root->left);
-        if(left == -1) return -1;
-        int right = isBal(root->right);
-        if(right == -1) return -1;
+        if(root==NULL)
+        {
+            Pair p(0,true);
+            return p;
+        }
         
-        if(abs(left-right) > 1)
-            return -1;
-        return 1 + max(left, right);
+        Pair LP = checkBalance(root->left);
+        Pair RP = checkBalance(root->right);
+        
+        int k1 = LP.H;
+        int k2 = RP.H;
+        int H = max(k1, k2)+1;
+        bool bal = (abs(LP.H-RP.H)<=1) && LP.B && RP.B;
+        
+        Pair ph(H, bal);
+        return ph;
     }
     
-    bool isBalanced(TreeNode *root)
+    
+    
+    bool isBalanced(TreeNode* root) 
     {
-        int ans = isBal(root);
-        if(ans == -1)
-            return false;
-        else
-            return true;
+//         if(root==NULL)
+//         {
+//             Pair p(0,true);
+//             return p.B;
+//         }
+        
+//         Pair LP = isBalanced(root->left);
+//         Pair RP = isBalanced(root->right);
+        
+//         int k1 = LP.H;
+//         int k2 = RP.H;
+//         int H = max(k1, k2)+1;
+//         bool bal = (abs(LP.H-RP.H)<=1) && LP.B && RP.B;
+        
+//         Pair ph(H, bal);
+//         return ph.bal;
+        
+        Pair p = checkBalance(root);
+        return p.B;
+        
+        
     }
 };
