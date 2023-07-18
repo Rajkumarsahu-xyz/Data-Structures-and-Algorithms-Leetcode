@@ -3,20 +3,20 @@ public:
     int maxProfit(vector<int>& prices) 
     {
         int i = 0;
-        int profit = 0, mxprofit = 0;
+        int mx = 0;
         for(int j=1; j<prices.size(); j++)
         {
-            if(prices[i] < prices[j])
+            if(prices[j] < prices[i])
             {
-                profit = prices[j] - prices[i];
-                mxprofit = max(mxprofit, profit);
+                i = j;
             }
             
             else
-                i = j;
-            
+            {
+                mx = max(mx, prices[j]-prices[i]);
+            }
         }
         
-        return mxprofit;
+        return mx;
     }
 };
