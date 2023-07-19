@@ -13,7 +13,7 @@ public:
         int count = -1;
         vector<int> prev = intervals[0];
         
-        for(vector<int> x: intervals)
+        for(auto x: intervals)
         {
             if(prev[1] > x[0]) 
             {
@@ -21,7 +21,7 @@ public:
 			}
             
             else 
-            prev = x;
+                prev = x;
         }
         
         return count;
