@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -13,6 +13,39 @@ struct Node {
     }
 };
 // Function to Build Tree
+
+
+// } Driver Code Ends
+//Function to find the lowest common ancestor in a BST.
+class Solution{
+    public:
+        Node *ans;
+        Node *solve(Node *root,int n1,int n2){
+            if(!root)  return root;
+            
+            if(root->data>=n1 && root->data<=n2)   return root;
+            
+            if(root->data<n1)
+            //both n1 and n2 are in right side
+              return   solve(root->right,n1,n2);
+          
+            
+          //root-data>n2 ,both are in left side 
+              return   solve(root->left,n1,n2);
+           
+        }
+        Node* LCA(Node *root, int n1, int n2)
+        {
+            
+            if(n1>n2)  swap(n1,n2);
+           return solve(root,n1,n2);
+        }
+
+};
+
+
+//{ Driver Code Starts.
+
 Node* buildTree(string str)
 {   
     // Corner Case
@@ -76,7 +109,6 @@ Node* buildTree(string str)
     return root;
 }
 
-Node* LCA(Node * root , int l , int h);
 
 int main()
 {
@@ -91,33 +123,10 @@ int main()
 		scanf("%d ",&l);
 		scanf("%d ",&h);
         Node* root = buildTree(s);
-        cout<<LCA(root ,  l ,  h)->data<<endl;
+        Solution sol;
+        int ans = sol.LCA(root, l, h)->data;
+        cout<<ans<<endl;
     }
     return 1;
-}// } Driver Code Ends
-
-
-
-
-//Function to find the lowest common ancestor in a BST. 
-Node *ans;
-Node *solve(Node *root,int n1,int n2){
-    if(!root)  return root;
-    
-    if(root->data>=n1 && root->data<=n2)   return root;
-    
-    if(root->data<n1)
-    //both n1 and n2 are in right side
-      return   solve(root->right,n1,n2);
-  
-    
-  //root-data>n2 ,both are in left side 
-      return   solve(root->left,n1,n2);
-   
 }
-Node* LCA(Node *root, int n1, int n2)
-{
-    
-    if(n1>n2)  swap(n1,n2);
-   return solve(root,n1,n2);
-}
+// } Driver Code Ends
