@@ -1,38 +1,31 @@
 class Solution {
 public:
     
-    int coinchange(int amount, vector<int>& coins, int n, vector<vector<int>>& dp)
+    int coinchange(int amount, vector<int>& coins, int i, int n, vector<vector<int>>& dp)
     {
-        for(int x=0; x<=amount; x++)
+        if(i == n-1)
         {
-            if(x%coins[0] == 0)
-                dp[0][x] = 1;
+            if(amount%coins[n-1] == 0)
+                return 1;
+            return 0;
         }
         
-        for(int ind=1; ind<n; ind++)
-        {
-            for(int target=0; target<=amount; target++)
-            {
-                int notTake = dp[ind-1][target];
-                int take = 0;
-                if(coins[ind] <= target)
-                    take = dp[ind][target-coins[ind]];
-                
-                dp[ind][target] = take + notTake;
-            }
-        }
+        if(dp[i][amount] != -1)
+            return dp[i][amount];
         
-        return dp[n-1][amount];
+        int take = 0, notTake = 0;
+        if(coins[i] <= amount)
+            take = coinchange(amount-coins[i], coins, i, n, dp);
+        notTake = coinchange(amount, coins, i+1, n, dp);
+        
+        return dp[i][amount] = take + notTake;
+        
     }
-    
     
     int change(int amount, vector<int>& coins) 
     {
-        if(amount == 0)
-            return 1;
-        
         int n = coins.size();
-        vector<vector<int>> dp(n+1, vector<int>(amount+1, 0));
-        return coinchange(amount, coins, n, dp);
+        vector<vector<int>> dp(n+1, vector<int>(amount+1, -1));
+        return coinchange(amount, coins, 0, n, dp);
     }
 };
