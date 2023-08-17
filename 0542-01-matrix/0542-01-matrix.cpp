@@ -36,7 +36,7 @@ public:
                 
                 if(row>=0 && row<n && col>=0 && col<m && visited[row][col]==0 && grid[row][col]==1)
                 {
-                    visited[row][col] = 1; 
+                    visited[row][col] = 1;
 	                q.push({{row, col}, dis+1});
                 }
             }
