@@ -1,31 +1,18 @@
-class comp {
-public:
-    bool operator() (string &b, string &a) 
-    {
-        if (a.size() != b.size()) 
-            return a.size() < b.size();
-        return  a < b;
-    }
-};
-
-
 class Solution {
 public:
     
     string kthLargestNumber(vector<string>& nums, int k) 
     {
-        int n = nums.size();
+        priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>> pq;
         
-        priority_queue<string, vector<string>, comp> pq;
-        for(int i=0; i<n; i++)
+        for(auto it: nums)
         {
-            pq.push(nums[i]);
-            if(pq.size() > k)
-            {
+            int len=it.size();
+            pq.push({len, it});
+            if(pq.size()>k) 
                 pq.pop();
-            }
         }
         
-        return pq.top();
+        return pq.top().second;
     }
 };
