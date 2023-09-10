@@ -15,7 +15,55 @@ struct Node {
     }
 };
 
-Node* insert(Node* node, int data);
+
+// } Driver Code Ends
+// Function to insert a node in a BST.
+
+/*
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution
+{
+    public:
+    Node* solve(Node* node, int data,Node* newNode)
+    {
+        if(node==NULL)
+            return newNode;
+    
+        if(data < node->data)
+        {
+            if(!node->left) node->left = newNode;
+            else solve(node->left,data,newNode);
+        }
+        else if(data>node->data)
+        {
+            if(!node->right)node->right = newNode;
+            else solve(node->right,data,newNode);
+        }
+    
+        return node;
+    }
+    
+    Node* insert(Node* node, int data) 
+    {
+        Node* newNode = new Node(data);
+        return solve(node,data,newNode);
+    }
+
+};
+
+
+//{ Driver Code Starts.
 
 // Function to Build Tree
 Node* buildTree(string str) {
@@ -99,8 +147,8 @@ int main() {
         getline(cin, s);
         int k = stoi(s);
         // getline(cin, s);
-
-        insert(root, k);
+        Solution ob;
+        ob.insert(root, k);
         vector<int> v;
         inorder(root, v);
         for (int i = 0; i < v.size(); i++) cout << v[i] << " ";
@@ -112,47 +160,3 @@ int main() {
 }
 
 // } Driver Code Ends
-
-
-// Function to insert a node in a BST.
-    void insertNode(Node* root, int val)
-    {
-        while(root != NULL)
-        {
-            if(val < root->data)
-            {
-                if(root->left) 
-                    root = root->left;
-                else
-                {
-                    root->left = new Node(val);
-                    break;
-                }
-            }
-            
-            else if(val > root->data)
-            {
-                if(root->right) 
-                    root = root->right;
-                else
-                {
-                    root->right = new Node(val);
-                    break;
-                }
-            }
-            
-            else
-            {
-                break;
-            }
-        }
-        
-    }
-    
-    Node* insert(Node* root, int Key) 
-    {
-        if(root == NULL)
-            return new Node(Key);
-        insertNode(root, Key);
-        return root;
-    }
