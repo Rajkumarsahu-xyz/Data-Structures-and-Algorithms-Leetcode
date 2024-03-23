@@ -8,44 +8,44 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+
 class Solution {
 public:
-    void reorderList(ListNode* head) 
-    {
-        stack<ListNode*> stk;
-        ListNode *temp = head;
+    void reorderList(ListNode* head) {
+        // base case : linkedlist is empty
+        if (!head) return;
         
-        int ctr = 1;
-        
-        while(temp->next) 
-        {
-            stk.push(temp->next);
-            // cout << "a"<< endl;
-            temp = temp->next;
-            ctr++;
+        // finding the middle with the help of two pointer approach
+        ListNode *tmp = head, *half = head, *prev = NULL;
+        while (tmp->next && tmp->next->next) {
+            tmp = tmp->next->next;
+            half = half->next;
         }
         
-        // cout << ctr << endl;
+        // adding one bit in case of lists with even length
+        if (tmp->next) half = half->next;
         
-        temp = head;
-        ctr--;
-        while(temp->next && ctr>0)
-        {
-            ListNode* p = temp->next;
-            temp->next = stk.top();
-            stk.pop();
-            temp = temp->next;
-            ctr--;
-            if(ctr > 0)
-            {
-                temp->next = p;
-                temp = temp->next;
-            }
-            
-            ctr--;
-            // cout << ctr << endl;
+        // Now reverse the second half
+        while (half) {
+            tmp = half->next;
+            half->next = prev;
+            prev = half;
+            half = tmp;
         }
-        // cout << "a" << endl;
-        temp->next = NULL;
+        half = prev;
+        
+        // After reversing the second half, let's merge both the halfes
+        while (head && half) {
+            tmp = head->next;
+            prev = half->next;
+            head->next = half;
+            half->next = tmp;
+            head = tmp;
+            half = prev;
+        }
+        
+        // Base case : closing when we had even length arrays
+        if (head && head->next) head->next->next = NULL;
     }
 };
