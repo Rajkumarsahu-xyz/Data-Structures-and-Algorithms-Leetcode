@@ -2,24 +2,23 @@ class Solution {
 public:
     char findKthBit(int n, int k) 
     {
-        if(n == 1)
+        if (n == 1) 
             return '0';
-        
-        string S = "0";
-        string Sn = "";
-        for(int i=2; i<=n; i++)
+
+        int len = 1 << n;
+
+        if (k < len / 2)
         {
-            Sn = S + "1";
-            for(int j=S.length()-1; j>=0; j--)
-            {
-                if(S[j]=='0')
-                    Sn += "1";
-                else
-                    Sn += "0";
-            }
-            S = Sn;
+            return findKthBit(n - 1, k);
         }
-        
-        return Sn[k-1];
+        else if (k == len / 2)
+        {
+            return '1';
+        }
+        else
+        {
+            char correspondingBit = findKthBit(n - 1, len - k);
+            return (correspondingBit == '0') ? '1' : '0';
+        }
     }
 };
